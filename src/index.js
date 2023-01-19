@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const toyCollection = document.querySelector("#toy-collection");
 
 const renderOneToy = (toy) => {
+  console.log(toy);
   const toyCard = document.createElement("div");
   toyCard.className = "card";
   // toyCard.setAttribute("class", "card");
@@ -43,6 +44,35 @@ const renderOneToy = (toy) => {
   // toyCard.append(button);
   toyCard.append(h2, image, paragraph, button);
   toyCollection.append(toyCard);
+
+  // add event listener click to toys like button
+  // find the current number of likes and increase by 1
+  // new count in paragraph in toy card
+
+  button.addEventListener("click", updateLikes);
+};
+
+const updateLikes = (event) => {
+  // const newLikes = toy.likes + 1;
+  // toy.likes = newLikes;
+
+  // const currentLikesString = event.target.parentElement.querySelector('p').textContent.split(" ")[0];
+  // const currentLikes = parseInt(currentLikesString);
+  // const newLikes = currentLikes + 1;
+
+  // paragraph.textContent = newLikes + " Likes"
+  paragraph.textContent = `${newLikes} Likes`;
+
+  fetch(`http://localhost:3000/toys/${toy.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      likes: newLikes,
+    }),
+  });
 };
 
 fetch("http://localhost:3000/toys")
@@ -93,3 +123,39 @@ form.addEventListener("submit", (event) => {
 
 // toy should be added to the toy collection on DOM
 //    - same thing we did for each toy from the get request
+
+// When a user clicks on a toy's like button, two things should happen:
+// the toy's like count should be updated in the DOM without reloading the page
+
+// Red -> Green -> Refactor
+// const BASE_URL = "http://localhost:3000";
+
+// function init() {
+//   getToys();
+// }
+
+// function createsToyCard() {
+//   // create toy card
+// }
+
+// function listensForLikeButtonClick() {
+//   // add event listener to like button
+// }
+
+// function renderOneToy(toy) {
+//   console.log(toy);
+//   createsToyCard();
+//   listensForLikeButtonClick();
+// }
+
+// function handleToyData(toys) {
+//   toys.forEach(renderOneToy);
+// }
+
+// function getToys() {
+//   fetch(BASE_URL + "/toys")
+//     .then((resp) => resp.json())
+//     .then(handleToyData);
+// }
+
+// init();
